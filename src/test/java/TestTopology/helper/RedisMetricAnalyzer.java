@@ -28,12 +28,14 @@ public class RedisMetricAnalyzer {
 
      //redis-cli lrange tomVLDTopEchoExpFInBC-s1-1024-768-L1-p25-102-1430416361-container 0 -1 | grep drs | awk '{split($0,a,"->"); print a[2]}' > tmp.log
 
+    private static Map<String, Object> conf = ResaConfig.create(true);
     public static void main(String[] args) {
         System.out.println("Usage: RedisMetricAnalyzer <topName> <configureFile>");
         try {
             String topName = args[0];
 
-            Config conf = ConfigUtil.readConfig(new File(args[1]));
+            Config topConf = ConfigUtil.readConfig(new File(args[1]));
+            conf.putAll(topConf);
             //by default this shall be "metrics"
             String metricQueue = (String)conf.get(RedisMetricsCollector.REDIS_QUEUE_NAME);
             long sleepTime = ConfigUtil.getLong(conf, ResaConfig.OPTIMIZE_INTERVAL, 30l);
@@ -43,14 +45,14 @@ public class RedisMetricAnalyzer {
             System.out.println("Topology name: " + topName + ", metricQueue: " + metricQueue
                     + ", sleepTime: " + sleepTime + ", maxAllowed: " + maxAllowedExecutors + ", qos: " + qos);
             RedisMetricAnalyzer rt = new RedisMetricAnalyzer();
-            rt.testMakeUsingTopologyHelperForkTopology(topName, metricQueue, sleepTime, maxAllowedExecutors, qos, conf);
+            rt.testMakeUsingTopologyHelperForkTopology(topName, metricQueue, sleepTime, maxAllowedExecutors, qos);
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
     public void testMakeUsingTopologyHelperForkTopology(String topoName, String metricQueue,
-                                                        long sleepTime, int allewedExecutorNum, double qos, Map<String, Object> conf) throws Exception {
+                                                        long sleepTime, int allewedExecutorNum, double qos) throws Exception {
 
         conf.put(Config.NIMBUS_HOST, "192.168.0.31");
         conf.put(Config.NIMBUS_THRIFT_PORT, 6627);
