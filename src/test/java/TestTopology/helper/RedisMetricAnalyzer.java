@@ -29,7 +29,7 @@ public class RedisMetricAnalyzer {
      //redis-cli lrange tomVLDTopEchoExpFInBC-s1-1024-768-L1-p25-102-1430416361-container 0 -1 | grep drs | awk '{split($0,a,"->"); print a[2]}' > tmp.log
 
     public static void main(String[] args) {
-        System.out.println("this is a test!!");
+        System.out.println("Usage: RedisMetricAnalyzer <topName> <configureFile>");
         try {
             String topName = args[0];
 
@@ -50,7 +50,7 @@ public class RedisMetricAnalyzer {
     }
 
     public void testMakeUsingTopologyHelperForkTopology(String topoName, String metricQueue,
-                                                        long sleepTime, int allewedExecutorNum, double qos, Map conf) throws Exception {
+                                                        long sleepTime, int allewedExecutorNum, double qos, Map<String, Object> conf) throws Exception {
 
         conf.put(Config.NIMBUS_HOST, "192.168.0.31");
         conf.put(Config.NIMBUS_THRIFT_PORT, 6627);
@@ -72,9 +72,8 @@ public class RedisMetricAnalyzer {
         SimpleGeneralAllocCalculator smdm = new SimpleGeneralAllocCalculator();
         smdm.init(conf, currAllocation, nimbus.getUserTopology(topoId));
 
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 100000; i++) {
             Utils.sleep(sleepTime);
-
             topoInfo = nimbus.getTopologyInfo(topoId);
 
             Map<String, Integer> updatedAllocation = topoInfo.get_executors().stream().filter(e -> !Utils.isSystemId(e.get_component_id()))
