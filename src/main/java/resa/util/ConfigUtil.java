@@ -66,6 +66,14 @@ public class ConfigUtil {
         throw new IllegalStateException("no " + key + " found in this conf");
     }
 
+    public static String getString(Map<String, Object> config, String key, String defaultValue) {
+        Object value = config.get(key);
+        if (value != null && value instanceof String) {
+            return (String)value;
+        }
+        return defaultValue;
+    }
+
     public static double getDouble(Map<String, Object> conf, String key, double defaultValue) {
         Object value = conf.get(key);
         if (value != null && value instanceof Number) {
