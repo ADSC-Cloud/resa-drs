@@ -98,7 +98,7 @@ public class SimpleGeneralServiceModel {
                 e -> e.getValue().getMinReqServerCount()));
         int topMinReq = retVal.values().stream().mapToInt(Integer::intValue).sum();
 
-        LOG.info("totalResourceCount: " + totalResourceCount + ", topMinReq: " + topMinReq);
+        LOG.debug("totalResourceCount: " + totalResourceCount + ", topMinReq: " + topMinReq);
         if (topMinReq <= totalResourceCount) {
             int remainCount = totalResourceCount - topMinReq;
             for (int i = 0; i < remainCount; i++) {

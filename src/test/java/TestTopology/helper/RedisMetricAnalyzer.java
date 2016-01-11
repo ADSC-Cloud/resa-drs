@@ -26,22 +26,17 @@ import java.util.stream.Collectors;
  */
 public class RedisMetricAnalyzer {
 
-     //redis-cli lrange tomVLDTopEchoExpFInBC-s1-1024-768-L1-p25-102-1430416361-container 0 -1 | grep drs | awk '{split($0,a,"->"); print a[2]}' > tmp.log
+    //redis-cli lrange tomVLDTopEchoExpFInBC-s1-1024-768-L1-p25-102-1430416361-container 0 -1 | grep drs | awk '{split($0,a,"->"); print a[2]}' > tmp.log
+    private Map<String, Object> conf = ResaConfig.create(true);
 
-    private static Map<String, Object> conf = ResaConfig.create(true);
     public static void main(String[] args) {
-        System.out.println("Usage: RedisMetricAnalyzer <topName> <configureFile>");
+        System.out.println("this is a test!!");
         try {
             String topName = args[0];
-
-            Config topConf = ConfigUtil.readConfig(new File(args[1]));
-            conf.putAll(topConf);
-            //by default this shall be "metrics"
-            String metricQueue = (String)conf.get(RedisMetricsCollector.REDIS_QUEUE_NAME);
-            long sleepTime = ConfigUtil.getLong(conf, ResaConfig.OPTIMIZE_INTERVAL, 30l);
-            int maxAllowedExecutors = ConfigUtil.getInt(conf, ResaConfig.ALLOWED_EXECUTOR_NUM, 25);
-            double qos = ConfigUtil.getDouble(conf, ResaConfig.OPTIMIZE_SMD_QOS_MS, 5000.0);
-
+            String metricQueue = args[1];
+            long sleepTime = Long.parseLong(args[2]);
+            int maxAllowedExecutors = Integer.parseInt(args[3]);
+            double qos = Double.parseDouble(args[4]);
             System.out.println("Topology name: " + topName + ", metricQueue: " + metricQueue
                     + ", sleepTime: " + sleepTime + ", maxAllowed: " + maxAllowedExecutors + ", qos: " + qos);
             RedisMetricAnalyzer rt = new RedisMetricAnalyzer();
@@ -56,9 +51,17 @@ public class RedisMetricAnalyzer {
 
         conf.put(Config.NIMBUS_HOST, "192.168.0.31");
         conf.put(Config.NIMBUS_THRIFT_PORT, 6627);
+        conf.put(Config.TOPOLOGY_DEBUG, true);
 
-        String host = (String)conf.get("redis.host");
-        int port = ConfigUtil.getInt(conf, "redis.port", 6379);
+        conf.put("resa.opt.smd.qos.ms", qos);
+        conf.put("resa.opt.win.history.size", 2);
+        conf.put("resa.opt.win.history.size.ignore", 0);
+        conf.put("resa.comp.sample.rate", 1.0);
+
+        conf.put(ResaConfig.ALLOWED_EXECUTOR_NUM, allewedExecutorNum);
+
+        String host = "192.168.0.31";
+        int port = 6379;
         int maxLen = 5000;
 
         NimbusClient nimbusClient = NimbusClient.getConfiguredClient(conf);
@@ -74,8 +77,9 @@ public class RedisMetricAnalyzer {
         SimpleGeneralAllocCalculator smdm = new SimpleGeneralAllocCalculator();
         smdm.init(conf, currAllocation, nimbus.getUserTopology(topoId));
 
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 10000; i++) {
             Utils.sleep(sleepTime);
+
             topoInfo = nimbus.getTopologyInfo(topoId);
 
             Map<String, Integer> updatedAllocation = topoInfo.get_executors().stream().filter(e -> !Utils.isSystemId(e.get_component_id()))
