@@ -13,7 +13,7 @@
             <!-- we're creating the test-jar as an attachement -->
             <useProjectAttachments>true</useProjectAttachments>
             <unpack>true</unpack>
-            <scope>runtime</scope>
+            <scope>test</scope>
             <useTransitiveDependencies>true</useTransitiveDependencies>
             <excludes>
                 <exclude>org.apache.storm:*</exclude>
