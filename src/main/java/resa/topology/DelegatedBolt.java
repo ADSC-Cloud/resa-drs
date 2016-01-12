@@ -5,6 +5,7 @@ import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.IRichBolt;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.tuple.Tuple;
+import backtype.storm.utils.Utils;
 
 import java.util.Map;
 
@@ -14,13 +15,34 @@ import java.util.Map;
 public class DelegatedBolt implements IRichBolt {
 
     private IRichBolt delegate;
+    private byte[] serializedBolt;
+
+    public DelegatedBolt() {}
 
     public DelegatedBolt(IRichBolt delegate) {
+        setBolt(delegate);
+    }
+
+    public DelegatedBolt(byte[] serializedBolt) {
+        setSerializedBolt(serializedBolt);
+    }
+
+    public void setBolt(IRichBolt delegate) {
         this.delegate = delegate;
+        this.serializedBolt = null;
+    }
+
+    public void setSerializedBolt(byte[] data) {
+        this.delegate = null;
+        this.serializedBolt = data;
     }
 
     @Override
     public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
+        if (delegate == null) {
+            delegate = Utils.javaDeserialize(serializedBolt, IRichBolt.class);
+            serializedBolt = null;
+        }
         delegate.prepare(stormConf, context, collector);
     }
 
