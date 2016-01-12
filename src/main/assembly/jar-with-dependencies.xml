@@ -10,8 +10,8 @@
         <dependencySet>
             <outputDirectory>/</outputDirectory>
             <useProjectArtifact>true</useProjectArtifact>
-            <!-- we're creating the test-jar as an attachement -->
-            <useProjectAttachments>true</useProjectAttachments>
+            <!-- we're creating the test-jar without attachement -->
+            <useProjectAttachments>false</useProjectAttachments>
             <unpack>true</unpack>
             <scope>runtime</scope>
             <useTransitiveDependencies>true</useTransitiveDependencies>

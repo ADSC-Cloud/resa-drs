@@ -59,6 +59,8 @@ public class MeasurableBolt extends DelegatedBolt {
     private transient MeasurableOutputCollector measurableCollector;
     private long lastMetricsSent;
 
+    public MeasurableBolt(){
+    }
     public MeasurableBolt(IRichBolt delegate) {
         super(delegate);
     }

@@ -4,8 +4,6 @@ import backtype.storm.generated.ComponentObject;
 import backtype.storm.generated.InvalidTopologyException;
 import backtype.storm.generated.StormTopology;
 import backtype.storm.nimbus.ITopologyValidator;
-import backtype.storm.topology.IRichBolt;
-import backtype.storm.topology.IRichSpout;
 import backtype.storm.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,14 +31,16 @@ public class ResaTopologyValidator implements ITopologyValidator {
     @Override
     public void validate(String topologyName, Map topologyConf, StormTopology topology) throws InvalidTopologyException {
 
-        topology.get_spouts().forEach((k, v) ->
-                v.set_spout_object(ComponentObject.serialized_java(Utils.javaSerialize(
-                        new MeasurableSpout(Utils.javaDeserialize(v.get_spout_object().get_serialized_java(), IRichSpout.class)))))
-        );
+        topology.get_spouts().forEach((k, v) -> {
+            MeasurableSpout s = new MeasurableSpout();
+            s.setSerializedSpout(v.get_spout_object().get_serialized_java());
+            v.set_spout_object(ComponentObject.serialized_java(Utils.javaSerialize(s)));
+        });
 
-        topology.get_bolts().forEach((k, v) ->
-                v.set_bolt_object(ComponentObject.serialized_java(Utils.javaSerialize(
-                        new MeasurableBolt(Utils.javaDeserialize(v.get_bolt_object().get_serialized_java(), IRichBolt.class)))))
-        );
+        topology.get_bolts().forEach((k, v) -> {
+            MeasurableBolt b = new MeasurableBolt();
+            b.setSerializedBolt(v.get_bolt_object().get_serialized_java());
+            v.set_bolt_object(ComponentObject.serialized_java(Utils.javaSerialize(b)));
+        });
     }
 }

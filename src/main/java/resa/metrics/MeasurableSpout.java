@@ -80,6 +80,9 @@ public class MeasurableSpout extends DelegatedSpout {
     private long lastMetricsSent;
     private long qos;
 
+    public MeasurableSpout(){
+
+    }
     public MeasurableSpout(IRichSpout delegate) {
         super(delegate);
     }
