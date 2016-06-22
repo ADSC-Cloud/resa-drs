@@ -45,7 +45,7 @@ public class ResourceScheduler {
         topologyMaxExecutors = ConfigUtil.getInt(conf, ALLOWED_EXECUTOR_NUM, -1);
         // create Allocation Calculator
         allocCalculator = ResaUtils.newInstanceThrow((String) conf.getOrDefault(ALLOC_CALC_CLASS,
-                SimpleGeneralAllocCalculator.class.getName()), AllocCalculator.class);
+                MMKAllocCalculator.class.getName()), AllocCalculator.class);
         // current allocation should be retrieved from nimbus
         currAllocation = calcAllocation(this.ctx.runningExecutors());
         allocCalculator.init(conf, Collections.unmodifiableMap(currAllocation), this.ctx.getTopology());
