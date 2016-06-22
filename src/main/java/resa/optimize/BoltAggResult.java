@@ -26,4 +26,16 @@ public class BoltAggResult extends AggResult {
         ((BoltAggResult) r).tupleProcess.forEach((s, cntMeanVar) ->
                 this.tupleProcess.computeIfAbsent(s, (k) -> new CntMeanVar()).addCMV(cntMeanVar));
     }
+
+    public double getAvgServTimeHis(){
+        return this.getCombinedProcessedResult().getAvg();
+    }
+
+    public double getScvServTimeHis(){
+        return this.getCombinedProcessedResult().getScv();
+    }
+
+    public long getNumCompleteTuples(){
+        return this.getCombinedProcessedResult().getCount();
+    }
 }

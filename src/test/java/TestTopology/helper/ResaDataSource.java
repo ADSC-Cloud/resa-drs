@@ -1,6 +1,7 @@
 package TestTopology.helper;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 import resa.metrics.MeasuredData;
 
@@ -12,11 +13,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by ding on 14-5-2.
- */
-public class RedisDataSource {
 
+/**
+ * Created by Tom.fu on 15/02/2016.
+ */
+public class ResaDataSource {
+
+    //There are three types of output metric information.
+    // "drs.alloc->{\"status\":\"FEASIBLE\",\"minReqOptAllocation\":{\"2Path-BoltA-NotP\":1,\"2Path-BoltA-P\":1,\"2Path-BoltB\":1,\"2Path-Spout\":1},
+    //"topology.info"->
+    //"task.2Path-Spout.16->{\
     public static List<MeasuredData> readData(String host, int port, String queue, int maxLen) {
         ObjectMapper objectMapper = new ObjectMapper();
         Jedis jedis = new Jedis(host, port);
@@ -26,15 +32,22 @@ public class RedisDataSource {
             int count = 0;
             while ((line = jedis.lpop(queue)) != null && count++ < maxLen) {
                 String[] tmp = line.split("->");
-                String[] head = tmp[0].split(":");
-                ret.add(new MeasuredData(head[0], Integer.valueOf(head[1]), System.currentTimeMillis(),
-                        objectMapper.readValue(tmp[1], Map.class)));
+                if (tmp[0].startsWith("task.")) {
+                    String[] head = tmp[0].split("\\.");
+                    ret.add(new MeasuredData(head[1], Integer.valueOf(head[2]), System.currentTimeMillis(),
+                            objectMapper.readValue(tmp[1], Map.class)));
+                } else {
+                    System.out.println(tmp[0]);
+                    JSONObject jo = new JSONObject(tmp[1]);
+                    printNode(jo);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             jedis.disconnect();
         }
+
         return ret;
     }
 
@@ -49,9 +62,15 @@ public class RedisDataSource {
             while (strings.hasNext() && count++ < maxLen) {
                 line = strings.next();
                 String[] tmp = line.split("->");
-                String[] head = tmp[0].split(":");
-                ret.add(new MeasuredData(head[0], Integer.valueOf(head[1]), System.currentTimeMillis(),
-                        objectMapper.readValue(tmp[1], Map.class)));
+                if (tmp[0].startsWith("task.")) {
+                    String[] head = tmp[0].split("\\.");
+                    ret.add(new MeasuredData(head[1], Integer.valueOf(head[2]), System.currentTimeMillis(),
+                            objectMapper.readValue(tmp[1], Map.class)));
+                } else {
+                    System.out.println(tmp[0]);
+                    JSONObject jo = new JSONObject(tmp[1]);
+                    printNode(jo);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,5 +114,17 @@ public class RedisDataSource {
         } finally {
             jedis.disconnect();
         }
+    }
+
+
+    /**
+     * transfer Json object into Map object
+     *
+     * @return Map obj
+     * @throws
+     */
+    public static void printNode(JSONObject obj) {
+        obj.keySet().forEach(k -> System.out.print(k + ": " + obj.get(k).toString() + ", "));
+        System.out.println();
     }
 }

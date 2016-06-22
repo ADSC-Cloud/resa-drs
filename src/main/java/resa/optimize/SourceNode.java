@@ -1,7 +1,10 @@
 package resa.optimize;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * Created by Tom.fu on 23/5/2014.
+ * Created by Tom.fu on 22/6/2016.
  * Modified by Tom Fu on 21-Dec-2015, for new DisruptQueue Implementation for Version after storm-core-0.10.0
  * Functions involving queue-related metrics in the current class will be affected:
  *
@@ -9,46 +12,129 @@ package resa.optimize;
  * TODO: this class needs improvement and redesign in the next version
  */
 public class SourceNode {
+    private static final Logger LOG = LoggerFactory.getLogger(SourceNode.class);
 
-    private double realLatencyMilliSec;
+    private String componentID;
+    private int executorNumber;
+    private double compSampleRate;
+
+    private double avgSendQueueLength;
+    private double avgRecvQueueLength;
+
+    private double realLatencyMilliSeconds;
+    private double scvRealLatency;
+
     private double numCompleteTuples;
-    private double sumDuration;
-    private double tupleLeaveRateOnSQ;
+    private double sumDurationSeconds;
+    private double tupleCompleteRate;
 
-    public SourceNode(double l, double n, double d, double r) {
-        realLatencyMilliSec = l;
-        numCompleteTuples = n;
-        sumDuration = d;
-        tupleLeaveRateOnSQ = r;
+    /*metrics on send_queue*/
+    private double tupleEmitRateOnSQ;
+    private double tupleEmitScvByInterArrival;
+    /*metrics on recv_queue*/
+    private double exArrivalRate;
+    private double exArrivalScvByInterArrival;
+
+    public SourceNode(String componentID, int executorNumber, double compSampleRate, SpoutAggResult ar){
+        this.componentID = componentID;
+        this.executorNumber = executorNumber;
+        this.compSampleRate = compSampleRate;
+
+        this.avgSendQueueLength = ar.getAvgSendQueueLength();
+        this.avgRecvQueueLength = ar.getAvgRecvQueueLength();
+
+        this.realLatencyMilliSeconds = ar.getAvgTupleCompleteLatency();
+        this.scvRealLatency = ar.getScvTupleCompleteLatency();
+
+        this.numCompleteTuples = ar.getNumOfCompletedTuples();
+        this.sumDurationSeconds = ar.getDurationSeconds();
+        this.tupleCompleteRate = numCompleteTuples * executorNumber / (sumDurationSeconds * compSampleRate);
+
+        /** the calculation on tupleEmitRate is affected by whether the acker is enabled **/
+        double departRateHis = ar.getDepartureRatePerSec();
+        /** assume acker is enabled, therefore, every tuple emitted by Spout, there is an acker tuple **/
+        this.tupleEmitRateOnSQ = departRateHis * executorNumber / 2.0;
+        this.tupleEmitScvByInterArrival = ar.getInterLeavelTimeScv();
+
+        /** instead, we prefer to use the following calculation for external arrival rate **/
+        double arrivalRateHis = ar.getArrivalRatePerSec();
+        this.exArrivalRate = arrivalRateHis * executorNumber;
+        this.exArrivalScvByInterArrival = ar.getInterArrivalTimeScv();
+
+        LOG.info("SourceNode is created: " + toString());
     }
 
-    public double getRealLatencyMilliSec(){
-        return realLatencyMilliSec;
+    public String getComponentID() {
+        return this.componentID;
     }
 
-    public double getRealLatencySec(){
-        return realLatencyMilliSec / 1000.0;
+    public int getExecutorNumber() {
+        return executorNumber;
     }
 
-    public double getNumCompleteTuples(){
+    public double getCompSampleRate() {
+        return compSampleRate;
+    }
+
+    public double getAvgSendQueueLength(){
+        return avgSendQueueLength;
+    }
+
+    public double getAvgRecvQueueLength(){
+        return avgRecvQueueLength;
+    }
+
+    public double getRealLatencyMilliSeconds() {
+        return realLatencyMilliSeconds;
+    }
+
+    public double getScvRealLatency(){
+        return scvRealLatency;
+    }
+
+    public double getRealLatencySeconds() {
+        return realLatencyMilliSeconds / 1000.0;
+    }
+
+    public double getNumCompleteTuples() {
         return numCompleteTuples;
     }
 
-    ///in unit millisec
-    public double getSumDurationMilliSec(){
-        return sumDuration;
+    public double getSumDurationMilliSeconds() {
+        return sumDurationSeconds * 1000.0;
     }
 
-    public double getSumDurationSec() {
-        return sumDuration / 1000.0;
+    public double getSumDurationSeconds() {
+        return sumDurationSeconds;
     }
 
-    ///tuples per second
-    public double getTupleCompleteRate(){
-        return numCompleteTuples * 1000.0 / sumDuration;
+    public double getTupleCompleteRate() {
+        return tupleCompleteRate;
     }
 
-    public double getTupleLeaveRateOnSQ(){
-        return tupleLeaveRateOnSQ;
+    public double getTupleEmitRateOnSQ() {
+        return tupleEmitRateOnSQ;
+    }
+
+    public double getTupleEmitScvByInterArrival() {
+        return tupleEmitScvByInterArrival;
+    }
+
+    public double getExArrivalRate() {
+        return exArrivalRate;
+    }
+
+    public double getExArrivalScvByInterArrival() {
+        return exArrivalScvByInterArrival;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "(ID, eNum):(%s,%d), FinRate: %.3f, avgCTime: %.3f, scvCTime: %.3f, FinCnt: %.1f, Dur: %.1f, sample: %.1f, SQLen: %.1f, RQLen: %.1f, " +
+                        "-----> rateSQ: %.3f, rateSQScv: %.3f, eArr: %.3f, eArrScv: %.3f",
+                componentID, executorNumber, tupleCompleteRate, realLatencyMilliSeconds, scvRealLatency, numCompleteTuples,
+                sumDurationSeconds, compSampleRate, avgSendQueueLength, avgRecvQueueLength,
+                tupleEmitRateOnSQ, tupleEmitScvByInterArrival, exArrivalRate, exArrivalScvByInterArrival);
     }
 }

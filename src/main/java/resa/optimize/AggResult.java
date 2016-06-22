@@ -82,4 +82,34 @@ public class AggResult implements Cloneable {
     public double getDurationSeconds(){
         return this.duration / 1000.0;
     }
+
+
+
+    public double getAvgSendQueueLength(){
+        return sendQueueResult.getQueueLength().getAvg();
+    }
+
+    public double getAvgRecvQueueLength(){
+        return recvQueueResult.getQueueLength().getAvg();
+    }
+
+    public double getArrivalRatePerSec(){
+        return recvQueueResult.getQueueArrivalRate().getAvg();
+    }
+
+    public double getDepartureRatePerSec(){
+        return sendQueueResult.getQueueArrivalRate().getAvg();
+    }
+
+    //TODO: note, the measurement for tuple arrival is not included by Storm-0.1.0 yet
+    public double getInterArrivalTimeScv(){
+        //return recvQueueResult.getQueueArrivalRate().getScv();
+        return 1.0;
+    }
+
+    //TODO: note, the measurement for tuple emit on Send Queue is not included by Storm-0.1.0 yet
+    public double getInterLeavelTimeScv(){
+        //return sendQueueResult.getQueueArrivalRate().getScv();
+        return 1.0;
+    }
 }

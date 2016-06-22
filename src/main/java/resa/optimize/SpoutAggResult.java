@@ -31,4 +31,16 @@ public class SpoutAggResult extends AggResult {
         ((SpoutAggResult) r).completedLatency.forEach((s, cntMeanVar) ->
                 this.completedLatency.computeIfAbsent(s, (k) -> new CntMeanVar()).addCMV(cntMeanVar));
     }
+
+    public double getAvgTupleCompleteLatency(){
+        return this.getCombinedCompletedLatency().getAvg();
+    }
+
+    public double getScvTupleCompleteLatency(){
+        return this.getCombinedCompletedLatency().getScv();
+    }
+
+    public long getNumOfCompletedTuples(){
+        return this.getCombinedCompletedLatency().getCount();
+    }
 }
