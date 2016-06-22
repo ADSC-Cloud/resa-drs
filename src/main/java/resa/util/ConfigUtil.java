@@ -1,6 +1,6 @@
 package resa.util;
 
-import backtype.storm.Config;
+import org.apache.storm.Config;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;

@@ -1,6 +1,6 @@
 package resa.drs;
 
-import backtype.storm.generated.StormTopology;
+import org.apache.storm.generated.StormTopology;
 import resa.optimize.AllocResult;
 
 import java.util.Map;

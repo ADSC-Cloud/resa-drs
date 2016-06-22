@@ -1,7 +1,7 @@
 package resa.util;
 
-import backtype.storm.Config;
-import backtype.storm.utils.Utils;
+import org.apache.storm.Config;
+import org.apache.storm.utils.Utils;
 import resa.topology.ResaContainer;
 
 import java.util.Map;

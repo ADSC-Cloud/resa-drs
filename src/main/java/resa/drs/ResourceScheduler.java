@@ -1,7 +1,7 @@
 package resa.drs;
 
-import backtype.storm.Config;
-import backtype.storm.scheduler.ExecutorDetails;
+import org.apache.storm.Config;
+import org.apache.storm.scheduler.ExecutorDetails;
 import resa.metrics.MeasuredData;
 import resa.optimize.*;
 import org.slf4j.Logger;

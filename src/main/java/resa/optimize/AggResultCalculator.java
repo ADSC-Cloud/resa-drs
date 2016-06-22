@@ -1,7 +1,7 @@
 package resa.optimize;
 
-import backtype.storm.generated.StormTopology;
-import backtype.storm.scheduler.ExecutorDetails;
+import org.apache.storm.generated.StormTopology;
+import org.apache.storm.scheduler.ExecutorDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import resa.metrics.MeasuredData;
