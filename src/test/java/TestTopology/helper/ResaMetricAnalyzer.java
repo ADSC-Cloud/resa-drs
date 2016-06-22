@@ -30,38 +30,45 @@ public class ResaMetricAnalyzer {
     public static void main(String[] args) {
         System.out.println("ResaMetricAnalyzer based on ResaDataSource");
         try {
-            String topName = args[0];
-            String metricQueue = args[1];
-            long sleepTime = Long.parseLong(args[2]);
-            int maxAllowedExecutors = Integer.parseInt(args[3]);
-            double qos = Double.parseDouble(args[4]);
-            int historySize = Integer.parseInt(args[5]);
-            int ignoreSize = Integer.parseInt(args[6]);
-            System.out.println("Topology name: " + topName + ", metricQueue: " + metricQueue
-                    + ", sleepTime: " + sleepTime + ", maxAllowed: " + maxAllowedExecutors + ", qos: " + qos);
+            String nimbusHost = args[0];
+            String topName = args[1];
+            String redisHost = args[2];
+            int redisPort = Integer.parseInt(args[3]);
+            String metricQueue = args[4];
+            long sleepTime = Long.parseLong(args[5]);
+            int maxAllowedExecutors = Integer.parseInt(args[6]);
+            double qos = Double.parseDouble(args[7]);
+            int historySize = Integer.parseInt(args[8]);
+            int ignoreSize = Integer.parseInt(args[9]);
+            double sampleRate = Double.parseDouble(args[10]);
+            System.out.println("NimbusHost: " + nimbusHost + "Topology name: " + topName +
+                    "RedisHost+Port: " + redisHost + ":" + redisPort + ", metricQueue: " + metricQueue +
+                    ", sleepTime: " + sleepTime + ", maxAllowed: " + maxAllowedExecutors + ", qos: " + qos + "sampleRate: " + sampleRate);
             ResaMetricAnalyzer rt = new ResaMetricAnalyzer();
-            rt.testMakeUsingTopologyHelperForkTopology(topName, metricQueue, sleepTime, maxAllowedExecutors, qos, historySize, ignoreSize);
+            rt.testMakeUsingTopologyHelperForkTopology(nimbusHost, topName, redisHost, redisPort, metricQueue,
+                    sleepTime, maxAllowedExecutors, qos, historySize, ignoreSize, sampleRate);
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
     public void testMakeUsingTopologyHelperForkTopology(
-            String topoName, String metricQueue, long sleepTime, int allewedExecutorNum, double qos, int historySize, int ignoreSize) throws Exception {
+            String nimbusHost, String topoName, String redisHost, int redisPort, String metricQueue,
+            long sleepTime, int allewedExecutorNum, double qos, int historySize, int ignoreSize, double sampleRate) throws Exception {
 
-        conf.put(Config.NIMBUS_HOST, "192.168.0.31");
+        conf.put(Config.NIMBUS_HOST, nimbusHost);
         conf.put(Config.NIMBUS_THRIFT_PORT, 6627);
         conf.put(Config.TOPOLOGY_DEBUG, true);
 
         conf.put("resa.opt.smd.qos.ms", qos);
         conf.put("resa.opt.win.history.size", historySize);
         conf.put("resa.opt.win.history.size.ignore", ignoreSize);
-        conf.put("resa.comp.sample.rate", 1.0);
+        conf.put("resa.comp.sample.rate", sampleRate);
 
         conf.put(ResaConfig.ALLOWED_EXECUTOR_NUM, allewedExecutorNum);
 
-        String host = "192.168.0.31";
-        int port = 6379;
+        String host = redisHost;
+        int port = redisPort;
         int maxLen = 5000;
 
         NimbusClient nimbusClient = NimbusClient.getConfiguredClient(conf);

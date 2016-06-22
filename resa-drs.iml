@@ -30,9 +30,7 @@
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.16" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-mapper-lgpl:1.9.13" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-core-lgpl:1.9.13" level="project" />
-    <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
-    <orderEntry type="library" name="Maven: junit:junit:4.10" level="project" />
-    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.json:json:20141113" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.9.1" level="project" />
   </component>
 </module>
