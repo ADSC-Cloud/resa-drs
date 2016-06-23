@@ -62,7 +62,7 @@ public class ServiceNode {
 
         this.ratio = this.exArrivalRate > 0.0 ? (this.lambda / this.exArrivalRate) : 0;
 
-        LOG.debug("ServiceNode is created: " + toString());
+        LOG.info("ServiceNode is created: " + toString());
     }
 
 

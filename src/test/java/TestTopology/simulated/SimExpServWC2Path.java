@@ -64,6 +64,6 @@ public class SimExpServWC2Path {
         conf.setDebug(ConfigUtil.getBoolean(conf, "DebugTopology", false));
         conf.setStatsSampleRate(ConfigUtil.getDouble(conf, "StatsSampleRate", 1.0));
 
-        StormSubmitter.submitTopology("Sim-2Path-top-1", conf, builder.createTopology());
+        StormSubmitter.submitTopology("sim-2Path-top-1", conf, builder.createTopology());
     }
 }

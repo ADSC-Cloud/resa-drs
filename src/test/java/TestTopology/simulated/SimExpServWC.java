@@ -53,6 +53,6 @@ public class SimExpServWC {
         conf.setDebug(ConfigUtil.getBoolean(conf, "DebugTopology", false));
         conf.setStatsSampleRate(ConfigUtil.getDouble(conf, "StatsSampleRate", 1.0));
 
-        StormSubmitter.submitTopology("Sim-chain-top", conf, builder.createTopology());
+        StormSubmitter.submitTopology("sim-chain-top", conf, builder.createTopology());
     }
 }

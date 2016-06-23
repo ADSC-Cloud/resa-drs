@@ -55,6 +55,6 @@ public class SimExpServWCLoop {
         conf.setDebug(ConfigUtil.getBoolean(conf, "DebugTopology", false));
         conf.setStatsSampleRate(ConfigUtil.getDouble(conf, "StatsSampleRate", 1.0));
 
-        StormSubmitter.submitTopology("Sim-loop-top", conf, builder.createTopology());
+        StormSubmitter.submitTopology("sim-loop-top", conf, builder.createTopology());
     }
 }
