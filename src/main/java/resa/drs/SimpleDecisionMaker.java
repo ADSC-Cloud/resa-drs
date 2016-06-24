@@ -1,6 +1,7 @@
 package resa.drs;
 
 import org.apache.storm.generated.StormTopology;
+import org.hamcrest.core.IsNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import resa.optimize.AllocResult;
@@ -8,6 +9,7 @@ import resa.util.ConfigUtil;
 import resa.util.ResaConfig;
 
 import java.util.Map;
+import java.util.Objects;
 
 import static resa.util.ResaConfig.OPTIMIZE_INTERVAL;
 
@@ -21,6 +23,7 @@ import static resa.util.ResaConfig.OPTIMIZE_INTERVAL;
  */
 public class SimpleDecisionMaker implements DecisionMaker {
     private static final Logger LOG = LoggerFactory.getLogger(SimpleDecisionMaker.class);
+
     /**
      * In future, if RebalanceType has more general usage, we will consider to move it to the ResaConfig class
      */
@@ -58,29 +61,40 @@ public class SimpleDecisionMaker implements DecisionMaker {
     public Map<String, Integer> make(AllocResult newAllocResult, Map<String, Integer> currAlloc) {
 
         long timeSpan = Math.max(0, System.currentTimeMillis() - startTimeMillis);
+        if (newAllocResult == null) {
+            LOG.info("SimpleDecisionMaker.make, newAllocResult == null");
+            return null;
+        }
+
         if (timeSpan < minExpectedIntervalMillis) {
             /** if  timeSpan is not large enough, no rebalance will be triggered **/
-            LOG.info("SimpleDecisionMaker.make, timeSpan: " + timeSpan + " < minExpectedIntervalMillis (" + minExpectedIntervalMillis + ")");
+            LOG.info("SimpleDecisionMaker.make, timeSpan (" + timeSpan + ") < minExpectedIntervalMillis (" + minExpectedIntervalMillis + ")");
             return null;
         } else {
             if (rbTypeValue == RebalanceType.MaxExecutorOpt.getValue()) {
-                if (newAllocResult.kMaxOptAllocation == null){
+                if (newAllocResult.kMaxOptAllocation == null) {
                     LOG.info("SimpleDecisionMaker.make, newAllocResult.kMaxOptAllocation == null, " +
                             "rebalance is not triggered, check whether the total resource is enough");
+                } else {
+                    LOG.info("SimpleDecisionMaker.make, return newAllocResult.kMaxOptAllocation: " + newAllocResult.kMaxOptAllocation);
                 }
                 return newAllocResult.kMaxOptAllocation;
 
             } else if (rbTypeValue == RebalanceType.MinQoSOpt.getValue()) {
-                if (newAllocResult.minReqOptAllocation == null){
+                if (newAllocResult.minReqOptAllocation == null) {
                     LOG.info("SimpleDecisionMaker.make, newAllocResult.minReqOptAllocation == null, " +
                             "rebalance is not triggered, the targetQoS parameter is not feasible!");
+                } else {
+                    LOG.info("SimpleDecisionMaker.make, return newAllocResult.minReqOptAllocation: " + newAllocResult.minReqOptAllocation);
                 }
                 return newAllocResult.minReqOptAllocation;
             } else {
                 /** by default, we use CurrentOpt allocation **/
-                if (newAllocResult.currOptAllocation == null){
+                if (newAllocResult.currOptAllocation == null) {
                     LOG.info("SimpleDecisionMaker.make, newAllocResult.currOptAllocation == null, " +
                             "rebalance is not triggered, the current system may not be stable!");
+                } else {
+                    LOG.info("SimpleDecisionMaker.make, return newAllocResult.currOptAllocation: " + newAllocResult.currOptAllocation);
                 }
                 return newAllocResult.currOptAllocation;
             }
