@@ -450,13 +450,14 @@ public class ServiceModel {
         LOG.info("GGKCAppr, currOptAllo: " + allocResult[2].currOptAllocation);
         LOG.info("GGKCAppr, kMaxOptAllo: " + allocResult[2].kMaxOptAllocation);
 
+//        Map<String, Object> context = new HashMap<>();
+//        context.putAll((Map<String, Object>)allocResult[0].getContext());
+//        context.putAll((Map<String, Object>)allocResult[1].getContext());
+//        context.putAll((Map<String, Object>)allocResult[2].getContext());
+//
+//        return allocResult[retAlloType.getValue()].setContext(context);
 
-        Map<String, Object> context = new HashMap<>();
-        context.putAll((Map<String, Object>)allocResult[0].getContext());
-        context.putAll((Map<String, Object>)allocResult[1].getContext());
-        context.putAll((Map<String, Object>)allocResult[2].getContext());
-
-        return allocResult[retAlloType.getValue()].setContext(context);
+        return allocResult[retAlloType.getValue()];
     }
 
     /**
