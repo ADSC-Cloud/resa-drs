@@ -25,8 +25,8 @@ public class ResaConfig extends Config {
 
     public static final String ALLOC_CALC_CLASS = "resa.optimize.alloc.class";
     public static final String OPTIMIZE_INTERVAL = "resa.optimize.interval.secs";
-    public static final String OPTIMIZE_MIN_EXPECTED_REBALANCE_INTERVAL = "resa.optimize.minimal.expected.rebalance.interval.secs";
-    public static final String OPTIMIZE_REBALANCE_TYPE = "resa.optimize.rebalance.type";
+    public static final String OPTIMIZE_MIN_EXPECTED_REBALANCE_INTERVAL = "resa.opt.adjust.min.sec";
+    public static final String OPTIMIZE_REBALANCE_TYPE = "resa.opt.adjust.type";
     public static final String OPTIMIZE_WIN_HISTORY_SIZE = "resa.opt.win.history.size";
     public static final String OPTIMIZE_WIN_HISTORY_SIZE_IGNORE = "resa.opt.win.history.size.ignore";
     public static final String OPTIMIZE_SMD_QOS_MS = "resa.opt.smd.qos.ms";
