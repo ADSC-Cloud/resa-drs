@@ -38,6 +38,15 @@ public class SimpleDecisionMaker implements DecisionMaker {
         public int getValue() {
             return value;
         }
+
+        public static String getTypeSting(int value){
+            switch (value){
+                case 0: return "CurrentOpt";
+                case 1: return "MaxExecutorOpt";
+                case 2: return "MinQoSOpt";
+                default: return "unknown";
+            }
+        }
     }
 
     long startTimeMillis;
@@ -54,7 +63,8 @@ public class SimpleDecisionMaker implements DecisionMaker {
         minExpectedIntervalMillis = ConfigUtil.getLong(conf, ResaConfig.OPTIMIZE_MIN_EXPECTED_REBALANCE_INTERVAL, calcIntervalSec * 2) * 1000 - 50;
         rbTypeValue = ConfigUtil.getInt(conf, ResaConfig.OPTIMIZE_REBALANCE_TYPE, RebalanceType.CurrentOpt.getValue());
 
-        LOG.info("SimpleDecisionMaker.init, stTime: " + startTimeMillis + ", minExpInteval: " + minExpectedIntervalMillis + "rbTypeValue: " + rbTypeValue);
+        LOG.info("SimpleDecisionMaker.init, stTime: " + startTimeMillis + ", minExpInteval: "
+                + minExpectedIntervalMillis + ", rbType: " + RebalanceType.getTypeSting(rbTypeValue) + "(" + rbTypeValue + ")");
     }
 
     @Override
