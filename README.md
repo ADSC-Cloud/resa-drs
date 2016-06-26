@@ -15,7 +15,26 @@ We have implemented the Resa-drs on top of the [Apahce Storm](http://storm.apach
 More details of DRS modules can be refer to our academic paper "[DRS: Dynamic Resource Scheduling for Real-Time Analytics over Fast Streams](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7164927)", which has been published in the proceedings of the 35th IEEE International Conference on Distributed Computing Systems (ICDCS 2015).
 
 ## How to use
-### Download resa-drs on Apache Storm
+### Download and deployment
+The whole project is packaged into a .jar file: [resa-drs-0.1.0.jar](http://www.resa-project.org/resa-drs-download/resa-drs-0.1.0.jar). You can also generate it through the source file:
+ 1. git clone https://github.com/fuzhengjia/resa-drs.git yourFolder
+ 2. cd yourFolder
+ 3. mvn clean package -DskipTests
+ 4. now the resa-drs-0.1.0.jar should be under yourFolder/target/
+
+You shall put [resa-drs-0.1.0.jar](http://www.resa-project.org/resa-drs-download/resa-drs-0.1.0.jar) and 
+its dependencies (you can download them from [here](http://www.resa-project.org/resa-drs-download/resa-drs-0.1.0-dependency.tar.bz2)):
+ * commons-pool2-2.3.jar
+ * hamcrest-core-1.1.jar
+ * jackson-core-lgpl-1.9.13.jar
+ * jackson-mapper-lgpl-1.9.13.jar
+ * jedis-2.7.3.jar
+ * json-simple-1.1.1.jar
+ * junit-4.10.jar
+ * snakeyaml-1.16.jar
+
+into your Storm_Home/lib/ and remember to add their executable attribute: chmod +x resa-drs-0.1.0.jar
+
 
 ### Configuration and parameter settings
 
