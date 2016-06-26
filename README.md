@@ -70,5 +70,12 @@ The only requirement is to add Resa-drs related configurations and parameter set
   * ```resa.topology.max.executor.per.worker: 2   #user specified maximal number of executors can be assigned to each worker. Note the product (resa.topology.max.executor.per.worker * topology.NumberOfWorkers) is an upper bound of total available number of executors can be used and it is effective for all the three types!``` 
  * ```#resa.scheduler.decision.class: "resa.drs.EmptyDecisionMaker"  #This is an alternative decision maker implementation, with automatically triggering the Topology's rebalance operation disabled. Note, Resa-drs is still (passively) working, to generate measurement results, calculate and suggest optimal allocations. However, users (if they intend to) have to trigger the Topology's rebalance operation manually (either by commond line, i.e. "Storm_Home/bin/storm rebalance ... " or through Storm UI.```
 
+## When Resa-drs works
+
+When Resa-drs properly works, you can see it through Storm UI (click the "Show System Stats" button), and you will possibly see the following:
+
+![Drs-run](/images/drs-run.jpg)
+
+You can click on "__metricsresa.topology.ResaContainer" and it will show more details of this system bolt, e.g. where it is hosted (node IP+port). Then, you can connect to the hosting node to check the log information, e.g. ```cat Storm_Home/logs/workers-artifacts/topology-name/port/worker.log | grep DefaultDecisionMaker```.   
 
 
