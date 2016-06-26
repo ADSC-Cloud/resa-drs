@@ -1,7 +1,7 @@
 # Dynamic Resource Scheduling of RESA
 
 ## Description
-Resa-drs is the resource scheduling and management component of our [Resa-Project](http://www.resa-project.org/).
+Resa-drs is the resource scheduling and management component of our [Resa-Project](http://www.resa-project.com/).
 
 In a data stream management system (DSMS), users register continuous queries, and receive result updates as data arrive and expire. We focus on applications with real-time constraints, in which the user must receive each result update within a given period after the update occurs. To handle fast data, the DSMS is commonly placed on top of a cloud infrastructure. Because stream properties such as arrival rates can fluctuate unpredictably, cloud resources must be dynamically provisioned and scheduled accordingly to ensure real-time response. It is essential, for the existing systems or future developments, to possess the ability of scheduling resources dynamically according to the current workload, in order to avoid wasting resources, or failing in delivering correct results on time. 
 
@@ -21,14 +21,14 @@ More details of DRS modules can be refer to our academic paper "[DRS: Dynamic Re
 
 ## How to use
 ### Download and deployment
-The whole project is packaged into a .jar file: [resa-drs-0.1.0.jar](http://www.resa-project.org/resa-drs-download/resa-drs-0.1.0.jar). You can also generate it through the source file:
+The whole project is packaged into a .jar file: [resa-drs-0.1.0.jar](/downloads/resa-drs-0.1.0.jar). You can also generate it through the source file:
  1. ```git clone https://github.com/fuzhengjia/resa-drs.git yourFolder```
  2. ```cd yourFolder```
  3. ```mvn clean package -DskipTests```
  4. now the resa-drs-0.1.0.jar should be under ```yourFolder/target/```
 
-You shall put [resa-drs-0.1.0.jar](http://www.resa-project.org/resa-drs-download/resa-drs-0.1.0.jar) and 
-its dependencies (you can download them from [here](http://www.resa-project.org/resa-drs-download/resa-drs-0.1.0-dependency.tar.bz2)):
+You shall put [resa-drs-0.1.0.jar](/downloads/resa-drs-0.1.0.jar) and 
+its dependencies (you can download them from [here](/downloads/resa-drs-0.1.0-dependency.tar.bz2)):
  * commons-pool2-2.3.jar
  * hamcrest-core-1.1.jar
  * jackson-core-lgpl-1.9.13.jar
