@@ -8,5 +8,17 @@ In a data stream management system (DSMS), users register continuous queries, an
 Motivated by this, we propose DRS, a novel dynamic resource scheduler for cloud-based DSMSs. DRS overcomes three fundamental challenges: (a) how to model the relationship between the provisioned resources and query response time (b) where to best place resources; and (c) how to measure system load with minimal overhead. In particular, DRS includes an accurate performance model based on the theory of Jackson open queueing networks and is capable of handling arbitrary operator topologies, possibly with loops, splits and joins. 
 
 ## Developement
-We have implemented the Resa-drs on top of the [Apahce Storm](http://storm.apache.org/) (ver. 1.0.1). The following figure shows the overview of the system architecture.
+We have implemented the Resa-drs on top of the [Apahce Storm](http://storm.apache.org/) (ver. 1.0.1). The following figure shows the overview of the system architecture:
+
 ![Overview](/images/drsOverview.jpg)
+
+More details of DRS modules can be refer to our academic paper "[DRS: Dynamic Resource Scheduling for Real-Time Analytics over Fast Streams](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7164927)", which has been published in the proceedings of the 35th IEEE International Conference on Distributed Computing Systems (ICDCS 2015).
+
+## How to use
+### Download resa-drs on Apache Storm
+
+### Configuration and parameter settings
+
+### Run applicatoin
+
+
