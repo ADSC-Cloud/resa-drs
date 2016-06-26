@@ -42,8 +42,8 @@ public class ResaMetricAnalyzer {
             int ignoreSize = Integer.parseInt(args[9]);
             double sampleRate = Double.parseDouble(args[10]);
             System.out.println("NimbusHost: " + nimbusHost + "Topology name: " + topName +
-                    "RedisHost+Port: " + redisHost + ":" + redisPort + ", metricQueue: " + metricQueue +
-                    ", sleepTime: " + sleepTime + ", maxAllowed: " + maxAllowedExecutors + ", qos: " + qos + "sampleRate: " + sampleRate);
+                    ", RedisHost+Port: " + redisHost + ":" + redisPort + ", metricQueue: " + metricQueue +
+                    ", sleepTime: " + sleepTime + ", maxAllowed: " + maxAllowedExecutors + ", qos (ms): " + qos + ", sampleRate: " + sampleRate);
             ResaMetricAnalyzer rt = new ResaMetricAnalyzer();
             rt.testMakeUsingTopologyHelperForkTopology(nimbusHost, topName, redisHost, redisPort, metricQueue,
                     sleepTime, maxAllowedExecutors, qos, historySize, ignoreSize, sampleRate);
