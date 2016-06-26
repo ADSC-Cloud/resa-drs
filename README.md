@@ -9,4 +9,4 @@ Motivated by this, we propose DRS, a novel dynamic resource scheduler for cloud-
 
 ## Developement
 We have implemented the Resa-drs on top of the [Apahce Storm](http://storm.apache.org/) (ver. 1.0.1). The following figure shows the overview of the system architecture.
-![Overview](/images/logo.png)
+![Overview](/images/drsOverview.jpg)
