@@ -38,7 +38,7 @@ its dependencies (you can download them from [here](/downloads/resa-drs-0.1.0-de
  * junit-4.10.jar
  * snakeyaml-1.16.jar
 
-into your ```Storm_Home/lib/``` and remember to add their executable attribute: ```chmod +x resa-drs-0.1.0.jar```
+into your ```Storm_Home/lib/```.
 
 ### Configuration and parameter settings (Storm cluster level)
 You need to add the following into the storm.yaml file (by befault under the folder:  ```Storm_Home/conf/```) for all the nodes including the nimbus nodes and supervisor nodes:
