@@ -72,7 +72,7 @@ Description of configuration | Value
 
 ![Drs-run](/images/drs-example-c1.jpg)
  
-Stage-2 Accroding to the topology's configuration file [example.yaml](/conf/example.yaml), where we have "resa.opt.adjust.min.sec: 360", and "resa.opt.adjust.type: 0 (CurrentOpt)", we can see that the Topology's Rebalance Operation is triggered at around the 6th minutes
+Stage-2 Accroding to the topology's configuration file [example.yaml](/conf/example.yaml), where we have "resa.opt.adjust.min.sec: 360", and "resa.opt.adjust.type: 0 (CurrentOpt)", we can see that the Topology's Rebalance Operation is triggered at around the 6th minute:
  
 ![Rebalance-triggered](/images/drs-example-c2.jpg)
 
@@ -94,7 +94,7 @@ Stage-4 After running for a while, no rebalance is triggered any more because th
 
 ![After-a-while](/images/drs-example-c4.jpg)
 
-Stage-5 In order to take a close look at the effectiveness of Resa-drs, we also plot the average tuple complete latency in each metric result window:
+In order to take a close look at the effectiveness of Resa-drs, we also plot the average tuple complete latency in each metric result window:
 
 ![Per-minute-plot](/images/drs-example-c6.jpg)
 
