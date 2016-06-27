@@ -38,7 +38,7 @@ its dependencies (you can download them from [here](/downloads/resa-drs-0.1.0-de
  * junit-4.10.jar
  * snakeyaml-1.16.jar
 
-into your ```Storm_Home/lib/``` and remember to add their executable attribute: ```chmod +x resa-drs-0.1.0.jar```
+into your ```Storm_Home/lib/```.
 
 ### Configuration and parameter settings (Storm cluster level)
 You need to add the following into the storm.yaml file (by befault under the folder:  ```Storm_Home/conf/```) for all the nodes including the nimbus nodes and supervisor nodes:
@@ -58,7 +58,7 @@ The only requirement is to add Resa-drs related configurations and parameter set
  * ```resa.metric.approved.names: - "complete-latency" - "execute" - "latency-stat" - "__sendqueue send-queue" - "__receive recv-queue" - "duration" - "arrival_rate_secs"   #The metrics defined and used by Resa-drs modules```
  * ```resa.optimize.alloc.class: "resa.optimize.MMKAllocCalculator"   #The optimal allocation calculator we designed and implemented based on Jackson Queueing network theory. In current version of Resa-drs, it is the only option. More options will be developed in future```
  * ```topology.builtin.metrics.bucket.size.secs: 60   #Storm built-in parameter, the period that the metrics are collected and reported by each task```
- *```resa.comp.sample.rate: 1.0  #the sample rate applied on measuring those appointed metric results```
+ * ```resa.comp.sample.rate: 1.0  #the sample rate applied on measuring those appointed metric results```
  * ```resa.opt.win.history.size: 5    #The size of the history window. It decides how much historical metrics data needs to be buffered, e.g., when topology.builtin.metrics.bucket.size.secs: 60, only the metrics data reported in the previous 300 seconds will be maintained in the buffer.```  
  * ```resa.opt.win.history.ignore: -1  #In the beginning, how much reported metric data shall be ignored (during the system initilization on starting a topology, the metrics data are mostly unstable), -1 means the first group of reported  (at the 60th second) data needs to be ignored```
  * ```resa.optimize.interval.secs: 300   #The period that DRS will re-calculate the optimial allocation according to the metric data within the configured history window```
