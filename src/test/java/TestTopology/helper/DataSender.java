@@ -1,6 +1,6 @@
 package TestTopology.helper;
 
-import backtype.storm.utils.Utils;
+import org.apache.storm.utils.Utils;
 import redis.clients.jedis.Jedis;
 import resa.util.ConfigUtil;
 

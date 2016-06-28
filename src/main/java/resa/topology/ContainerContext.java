@@ -1,7 +1,7 @@
 package resa.topology;
 
-import backtype.storm.generated.StormTopology;
-import backtype.storm.scheduler.ExecutorDetails;
+import org.apache.storm.generated.StormTopology;
+import org.apache.storm.scheduler.ExecutorDetails;
 import resa.metrics.MeasuredData;
 
 import java.util.List;

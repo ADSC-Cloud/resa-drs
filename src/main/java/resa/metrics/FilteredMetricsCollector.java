@@ -1,9 +1,9 @@
 package resa.metrics;
 
-import backtype.storm.metric.api.IMetricsConsumer;
-import backtype.storm.task.IErrorReporter;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.utils.Utils;
+import org.apache.storm.metric.api.IMetricsConsumer;
+import org.apache.storm.task.IErrorReporter;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.utils.Utils;
 
 import java.util.*;
 import java.util.stream.Collectors;

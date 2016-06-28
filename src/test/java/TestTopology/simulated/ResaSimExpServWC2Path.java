@@ -1,9 +1,8 @@
 package TestTopology.simulated;
 
-import backtype.storm.Config;
-import backtype.storm.StormSubmitter;
-import backtype.storm.topology.TopologyBuilder;
-import resa.metrics.RedisMetricsCollector;
+import org.apache.storm.Config;
+import org.apache.storm.StormSubmitter;
+import org.apache.storm.topology.TopologyBuilder;
 import resa.topology.ResaTopologyBuilder;
 import resa.util.ConfigUtil;
 import resa.util.ResaConfig;
@@ -67,11 +66,6 @@ public class ResaSimExpServWC2Path {
         conf.setMaxSpoutPending(ConfigUtil.getInt(conf, "2Path-MaxSpoutPending", 0));
         conf.setDebug(ConfigUtil.getBoolean(conf, "DebugTopology", false));
         conf.setStatsSampleRate(ConfigUtil.getDouble(conf, "StatsSampleRate", 1.0));
-
-        if (ConfigUtil.getBoolean(conf, "EnableRedisMetricsCollector", false)) {
-            conf.registerMetricsConsumer(RedisMetricsCollector.class);
-            System.out.println("RedisMetricsCollector is registered");
-        }
 
         ResaConfig resaConfig = ResaConfig.create();
         resaConfig.putAll(conf);

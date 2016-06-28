@@ -1,6 +1,6 @@
 package resa.optimize;
 
-import backtype.storm.generated.StormTopology;
+import org.apache.storm.generated.StormTopology;
 
 import java.util.Map;
 

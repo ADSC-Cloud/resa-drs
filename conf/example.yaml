@@ -1,0 +1,122 @@
+# Resa-drs related configuration and parameter settings
+
+## The metrics defined and used by Resa-drs modules
+resa.metric.approved.names: 
+ - "complete-latency" 
+ - "execute" 
+ - "latency-stat" 
+ - "__sendqueue send-queue" 
+ - "__receive recv-queue" 
+ - "duration" 
+ - "arrival_rate_secs"
+
+## Config Redis service
+resa.container.metric.redis.host: "192.168.0.31"
+resa.container.metric.redis.port: 6379
+
+### Redis queue name for metric results output
+resa.container.metric.redis.queue-name: "resa-results"
+
+### Detailed metric informaiton are included or not
+resa.container.metric.output: true
+
+
+## The optimal allocation calculator we designed and implemented based on Jackson Queueing network theory. In the current version of Resa-drs, it is the only option. More options will be developed in future
+resa.optimize.alloc.class: "resa.optimize.MMKAllocCalculator"
+
+
+## Storm built-in parameter, the period that the metrics are collected and reported by each task 
+topology.builtin.metrics.bucket.size.secs: 60
+
+
+## The sample rate applied on measuring those appointed metric results, the default value is 0.05
+resa.comp.sample.rate: 1.0
+
+
+## The size of the history window. It decides how much historical metrics data needs to be buffered, e.g., when topology.builtin.metrics.bucket.size.secs: 60, only the metrics data reported in the previous 300 seconds will be maintained in the buffer. The default value is 1.
+resa.opt.win.history.size: 5
+
+
+## In the beginning, how much reported metric data shall be ignored (during the system initilization on starting a topology, the metrics data are mostly unstable), -1 means the first group of reported (at the 60th second) data needs to be ignored. The default value is 0.
+resa.opt.win.history.ignore: 0
+
+
+## The period that DRS will re-calculate the optimial allocation according to the metric data within the configured history window. The default value is 30
+resa.optimize.interval.secs: 60
+
+
+## A simple decision maker we have implemented for making the decision when to trigger the Topology's rebalance operation. 
+resa.scheduler.decision.class: "resa.drs.DefaultDecisionMaker"
+
+## Note, the following parameters are valid only when "resa.drs.DefaultDecisionMaker" is configured:
+### The minimal expected interval that the "resa.drs.DefaultDecisionMaker" will trigger the Topology rebalance operation when it detects a better allocation suggested by drs allocation calculator. The default value is "resa.optimize.interval.secs" * 2
+resa.opt.adjust.min.sec: 360
+
+### The type of suggested allocation to consider, 
+### 0: CurrentOpt(default) - where total number of executors used remain unchanged after rebalance; 
+### 1: MaxExecutorOpt - where the maximal available number (specified by the user through the next two parameters) of executors will be used after rebalance; 
+### 2: MinQoSOpt - where the minimal number of executors that can satisfy the user specified QoS target (maximum allowed expected tuple complete latency) will be used after rebalance (at current drs version, this type is not stable).
+resa.opt.adjust.type: 0
+
+### User specified QoS target, i.e., the maximal allowed expected tuple complete latency in millisecond. It is effective only when "resa.opt.adjust.type" is set to 2. The default value is 5000.
+resa.opt.smd.qos.ms: 1500
+
+### User specified maximal available number of executors can be used. It is effective only when resa.opt.adjust.type is set to 1.
+resa.topology.allowed.executor.num: 8
+
+### User specified maximal number of executors can be assigned to each worker. Note the product ("resa.topology.max.executor.per.worker" * "topology.NumberOfWorkers") is an upper bound of total available number of executors can be used and it is effective for all the three types!
+resa.topology.max.executor.per.worker: 2
+
+
+## This is an alternative decision maker implementation, with automatically triggering the Topology's rebalance operation disabled. Note, Resa-drs is still (passively) working, to generate measurement results, calculate and suggest optimal allocations. However, users (if they intend to) have to trigger the Topology's rebalance operation manually (either by commond line, i.e. "Storm_Home/bin/storm rebalance ... " or through Storm UI.
+#resa.scheduler.decision.class: "resa.drs.EmptyDecisionMaker"
+
+
+# User-defined topology related configuration and parameter settings
+
+## Redis queue for input data
+redis.host: "192.168.0.31"
+redis.port: 6379
+redis.sourceQueueName: "fSource"
+redis.queue: "fSource"
+
+## topology level
+chain-NumOfWorkers: 3
+chain-MaxSpoutPending: 20000
+
+2Path-NumOfWorkers: 3
+2Path-MaxSpoutPending: 20000
+
+loop-NumOfWorkers: 3
+loop-MaxSpoutPending: 20000
+
+defaultTaskNum: 5
+DebugTopology: false
+
+## Chain-topology
+chain-BoltA.parallelism: 3
+chain-BoltA.mu: 10.0
+
+chain-BoltB.parallelism: 2
+chain-BoltB.mu: 15.0
+
+## 2Path-topology
+2Path-spout.prob: 0.6
+
+2Path-BoltA-P.parallelism: 1
+2Path-BoltA-P.mu: 10
+
+2Path-BoltA-NotP.parallelism: 2
+2Path-BoltA-NotP.mu: 5
+
+2Path-BoltB.parallelism: 2
+2Path-BoltB.mu: 15
+
+## Loop topology
+loop-BoltA.parallelism: 1
+loop-BoltA.mu: 10
+
+loop-BoltB.parallelism: 4
+loop-BoltB.mu: 15
+loop-BoltB-loopback.prob: 0.2
+

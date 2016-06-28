@@ -1,10 +1,10 @@
 package resa.topology;
 
-import backtype.storm.generated.ComponentObject;
-import backtype.storm.generated.InvalidTopologyException;
-import backtype.storm.generated.StormTopology;
-import backtype.storm.nimbus.ITopologyValidator;
-import backtype.storm.utils.Utils;
+import org.apache.storm.generated.ComponentObject;
+import org.apache.storm.generated.InvalidTopologyException;
+import org.apache.storm.generated.StormTopology;
+import org.apache.storm.nimbus.ITopologyValidator;
+import org.apache.storm.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import resa.metrics.MeasurableBolt;

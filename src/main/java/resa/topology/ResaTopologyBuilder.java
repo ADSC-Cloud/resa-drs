@@ -1,6 +1,6 @@
 package resa.topology;
 
-import backtype.storm.topology.*;
+import org.apache.storm.topology.*;
 import resa.metrics.MeasurableBolt;
 import resa.metrics.MeasurableSpout;
 

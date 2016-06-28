@@ -1,8 +1,8 @@
 package TestTopology.simulated;
 
-import backtype.storm.Config;
-import backtype.storm.StormSubmitter;
-import backtype.storm.topology.TopologyBuilder;
+import org.apache.storm.Config;
+import org.apache.storm.StormSubmitter;
+import org.apache.storm.topology.TopologyBuilder;
 import resa.util.ConfigUtil;
 
 import java.io.File;
@@ -64,6 +64,6 @@ public class SimExpServWC2Path {
         conf.setDebug(ConfigUtil.getBoolean(conf, "DebugTopology", false));
         conf.setStatsSampleRate(ConfigUtil.getDouble(conf, "StatsSampleRate", 1.0));
 
-        StormSubmitter.submitTopology("Sim-2Path-top-1", conf, builder.createTopology());
+        StormSubmitter.submitTopology("sim-2Path-top-1", conf, builder.createTopology());
     }
 }

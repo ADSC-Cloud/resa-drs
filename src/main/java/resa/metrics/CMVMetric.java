@@ -1,6 +1,6 @@
 package resa.metrics;
 
-import backtype.storm.metric.api.IMetric;
+import org.apache.storm.metric.api.IMetric;
 
 import java.util.HashMap;
 import java.util.Map;

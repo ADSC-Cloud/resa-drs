@@ -1,7 +1,7 @@
 package resa.drs;
 
-import backtype.storm.Config;
-import backtype.storm.scheduler.ExecutorDetails;
+import org.apache.storm.Config;
+import org.apache.storm.scheduler.ExecutorDetails;
 import resa.metrics.MeasuredData;
 import resa.optimize.*;
 import org.slf4j.Logger;
@@ -45,7 +45,7 @@ public class ResourceScheduler {
         topologyMaxExecutors = ConfigUtil.getInt(conf, ALLOWED_EXECUTOR_NUM, -1);
         // create Allocation Calculator
         allocCalculator = ResaUtils.newInstanceThrow((String) conf.getOrDefault(ALLOC_CALC_CLASS,
-                SimpleGeneralAllocCalculator.class.getName()), AllocCalculator.class);
+                MMKAllocCalculator.class.getName()), AllocCalculator.class);
         // current allocation should be retrieved from nimbus
         currAllocation = calcAllocation(this.ctx.runningExecutors());
         allocCalculator.init(conf, Collections.unmodifiableMap(currAllocation), this.ctx.getTopology());

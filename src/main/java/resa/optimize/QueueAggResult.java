@@ -58,7 +58,8 @@ public class QueueAggResult implements Cloneable {
 
     @Override
     public String toString() {
-        return String.format("avgRate: %.5f, avgQueueLen: %.5f, avgCapacity: %.5f, avgQueueingTime: %.5f", this.queueArrivalRate.getAvg(),
-                this.queueLength.getAvg(), this.queueCapacity.getAvg(), this.queueingTime.getAvg());
+        return String.format("avgRate: %.3f, avgQueueLen: %.3f, avgCapacity: %.3f, avgQueueingTime: %.3f",
+                this.queueArrivalRate.getAvg(), this.queueLength.getAvg(),
+                this.queueCapacity.getAvg(), this.queueingTime.getAvg());
     }
 }
