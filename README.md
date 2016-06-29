@@ -21,14 +21,14 @@ More details of DRS modules can be refer to our academic paper "[DRS: Dynamic Re
 
 ## How to use
 ### Download and deployment
-The whole project is packaged into a .jar file: [resa-drs-0.1.0.jar](/downloads/resa-drs-0.1.0.jar). You can also generate it through the source file:
+The whole project is packaged into a .jar file: [resa-drs-0.1.0.jar](https://github.com/ADSC-Cloud/resa-drs/releases/download/v0.1.0/resa-drs-0.1.0.jar). You can also generate it through the source file:
  1. ```git clone https://github.com/fuzhengjia/resa-drs.git yourFolder```
  2. ```cd yourFolder```
  3. ```mvn clean package -DskipTests```
  4. now the resa-drs-0.1.0.jar should be under ```yourFolder/target/```
 
-You shall put [resa-drs-0.1.0.jar](/downloads/resa-drs-0.1.0.jar) and 
-its dependencies (you can download them from [here](/downloads/resa-drs-0.1.0-dependency.tar.bz2)):
+You shall put [resa-drs-0.1.0.jar](https://github.com/ADSC-Cloud/resa-drs/releases/download/v0.1.0/resa-drs-0.1.0.jar) and 
+its dependencies (you can download them from [here](https://github.com/ADSC-Cloud/resa-drs/releases/download/v0.1.0/resa-drs-0.1.0-dependency.tar.bz2)):
  * commons-pool2-2.3.jar
  * hamcrest-core-1.1.jar
  * jackson-core-lgpl-1.9.13.jar
