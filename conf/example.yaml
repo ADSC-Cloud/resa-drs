@@ -10,14 +10,7 @@ resa.metric.approved.names:
  - "duration" 
  - "arrival_rate_secs"
 
-## Config Redis service
-resa.container.metric.redis.host: "192.168.0.31"
-resa.container.metric.redis.port: 6379
-
-### Redis queue name for metric results output
-resa.container.metric.redis.queue-name: "resa-results"
-
-### Detailed metric informaiton are included or not
+## Determine whether to attached detailed running informaiton of resa-drs will to the LOG outputs, default is false
 resa.container.metric.output: true
 
 
