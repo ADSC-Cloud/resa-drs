@@ -5,7 +5,7 @@ Resa-drs is the resource scheduling and management component of our [Resa-Projec
 
 In a stream data analytics system, input data arrives continuously and triggers the processing and updating of analytics results. We focus on applications with real-time constraints, in which any data unit must be completely processed within a given time duration. To handle fast data, it is common to place the steam data analytics system on top of a cloud infrastructure. Because stream properties such as arrival rates can fluctuate unpredictably, cloud resources must be dynamically provisioned and scheduled accordingly to ensure real-time responses. It is essential, for existing systems or future developments, to possess the ability of scheduling resources dynamically according to the instantaneous workload, in order to avoid wasting resources or failing in delivering the correct analytics results on time. 
 
-Motivated by this, we propose DRS, a novel dynamic resource scheduler for cloud-based DSMSs. DRS overcomes three fundamental challenges: 
+Motivated by this, we propose DRS, a novel dynamic resource scheduler for cloud-based stream data analytics systems. DRS overcomes three fundamental challenges: 
  1. how to model the relationship between the provisioned resources and query response time 
  2. where to best place resources to minimize tuple average complete latency
  3. how to implement resource scheduling on top of Apache Storm with minimal overhead
