@@ -18,6 +18,10 @@ import java.util.Map;
  * It requires to modify the storm configuration file: storm.yaml
  * Add this entry:
  * nimbus.topology.validator: "resa.topology.ResaTopologyValidator"
+ *
+ * TODO: there will be an exception on registering metrics twice, when running "ResaSimExpServLoop.java" (using
+ * TODO: ResaTopologyBuilder) with configuring the ResaTopologyValidator, therefore, we need to modify
+ * TODO: ResaTopologyValidator to add some check to avoid register metrics twice.
  */
 public class ResaTopologyValidator implements ITopologyValidator {
 

@@ -1,5 +1,8 @@
-package TestTopology.simulated;
+package TestTopology.dev;
 
+import TestTopology.simulated.TASentenceSpout;
+import TestTopology.simulated.TASplitSentence;
+import TestTopology.simulated.TAWordCounter;
 import org.apache.storm.Config;
 import org.apache.storm.StormSubmitter;
 import org.apache.storm.topology.TopologyBuilder;
@@ -10,8 +13,10 @@ import resa.util.ResaConfig;
 import java.io.File;
 
 /**
- * This topology demonstrates Storm's stream groupings and multilang
- * capabilities.
+ * This is for Resa-drs development testing purpose. In this topology, Resa-drs support and functions needs explicit
+ * declaration, e.g., "TopologyBuilder builder = new ResaTopologyBuilder();" also needs to include resa-drs related
+ * dependencies, e.g., "import resa.topology.ResaTopologyBuilder;"
+ * Before we update ResaTopologyValidator, please ensure ResaTopologyValidator is NOT configured for running this
  */
 public class ResaSimExpServWC {
 
