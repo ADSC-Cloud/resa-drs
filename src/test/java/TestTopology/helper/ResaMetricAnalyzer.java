@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Created by Tom.fu on 5/5/2014.
+ * Created by Tom.fu on 5/5/2014. Just for testing purpose
  */
 public class ResaMetricAnalyzer {
 
