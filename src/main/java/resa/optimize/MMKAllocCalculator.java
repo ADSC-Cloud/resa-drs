@@ -6,10 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import resa.util.ConfigUtil;
 import resa.util.ResaConfig;
+import resa.util.ResaUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static resa.util.ResaConfig.SERVICE_MODEL_CLASS;
 
 /**
  * Created by ding on 14-4-30.
@@ -25,6 +28,7 @@ public class MMKAllocCalculator extends AllocCalculator {
     private HistoricalCollectedData boltHistoricalData;
     private int historySize;
     private int currHistoryCursor;
+    private ServiceModel serviceModel;
 
     @Override
     public void init(Map<String, Object> conf, Map<String, Integer> currAllocation, StormTopology rawTopology) {
@@ -34,6 +38,8 @@ public class MMKAllocCalculator extends AllocCalculator {
         currHistoryCursor = ConfigUtil.getInt(conf, ResaConfig.OPTIMIZE_WIN_HISTORY_SIZE_IGNORE, 0);
         spoutHistoricalData = new HistoricalCollectedData(rawTopology, historySize);
         boltHistoricalData = new HistoricalCollectedData(rawTopology, historySize);
+        serviceModel =  ResaUtils.newInstanceThrow((String) conf.getOrDefault(SERVICE_MODEL_CLASS,
+                MMKServiceModel.class.getName()), ServiceModel.class);
     }
 
     @Override
@@ -56,11 +62,14 @@ public class MMKAllocCalculator extends AllocCalculator {
         ///TODO: Here we assume only one spout, plan to extend to multiple spouts in future
         ///TODO: here we assume only one running topology, plan to extend to multiple running topologies in future
         double targetQoSMs = ConfigUtil.getDouble(conf, ResaConfig.OPTIMIZE_SMD_QOS_MS, 5000.0);
+        double completeTimeMilliSecUpper = ConfigUtil.getDouble(conf, ResaConfig.OPTIMIZE_SMD_QOS_UPPER_MS, 2000.0);
+        double completeTimeMilliSecLower = ConfigUtil.getDouble(conf, ResaConfig.OPTIMIZE_SMD_QOS_LOWER_MS, 500.0);
         int maxSendQSize = ConfigUtil.getInt(conf, Config.TOPOLOGY_EXECUTOR_SEND_BUFFER_SIZE, 1024);
         int maxRecvQSize = ConfigUtil.getInt(conf, Config.TOPOLOGY_EXECUTOR_RECEIVE_BUFFER_SIZE, 1024);
         double sendQSizeThresh = ConfigUtil.getDouble(conf, ResaConfig.OPTIMIZE_SMD_SEND_QUEUE_THRESH, 5.0);
         double recvQSizeThreshRatio = ConfigUtil.getDouble(conf, ResaConfig.OPTIMIZE_SMD_RECV_QUEUE_THRESH_RATIO, 0.6);
         double recvQSizeThresh = recvQSizeThreshRatio * maxRecvQSize;
+        int resourceUnit = ConfigUtil.getInt(conf, ResaConfig.OPTIMIZE_SMD_RESOURCE_UNIT,1);
 
         ///TODO: check how metrics are sampled in the current implementation.
         double componentSampelRate = ConfigUtil.getDouble(conf, ResaConfig.COMP_SAMPLE_RATE, 1.0);
@@ -101,8 +110,8 @@ public class MMKAllocCalculator extends AllocCalculator {
                 .filter(e -> rawTopology.get_bolts().containsKey(e.getKey())).mapToInt(Map.Entry::getValue).sum();
 
         LOG.info("Run Optimization, tQos: " + targetQoSMs + ", currUsed: " + currentUsedThreadByBolts + ", kMax: " + maxThreadAvailable4Bolt + ", currAllo: " + currAllocation);
-        AllocResult allocResult = ServiceModel.checkOptimized(
-                spInfo, queueingNetwork, targetQoSMs, boltAllocation, maxThreadAvailable4Bolt, currentUsedThreadByBolts, ServiceModel.ServiceModelType.MMK);
+        AllocResult allocResult = serviceModel.checkOptimized(
+                spInfo, queueingNetwork, completeTimeMilliSecUpper, completeTimeMilliSecLower, boltAllocation, maxThreadAvailable4Bolt, currentUsedThreadByBolts, resourceUnit);
 
 
         Map<String, Integer> retCurrAllocation = null;

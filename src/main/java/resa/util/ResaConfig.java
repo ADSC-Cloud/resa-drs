@@ -24,14 +24,18 @@ public class ResaConfig extends Config {
     public static final String COMP_SAMPLE_RATE = "resa.comp.sample.rate";
 
     public static final String ALLOC_CALC_CLASS = "resa.optimize.alloc.class";
+    public static final String SERVICE_MODEL_CLASS = "resa.optimize.service.model.class";
     public static final String OPTIMIZE_INTERVAL = "resa.optimize.interval.secs";
     public static final String OPTIMIZE_MIN_EXPECTED_REBALANCE_INTERVAL = "resa.opt.adjust.min.sec";
     public static final String OPTIMIZE_REBALANCE_TYPE = "resa.opt.adjust.type";
     public static final String OPTIMIZE_WIN_HISTORY_SIZE = "resa.opt.win.history.size";
     public static final String OPTIMIZE_WIN_HISTORY_SIZE_IGNORE = "resa.opt.win.history.size.ignore";
     public static final String OPTIMIZE_SMD_QOS_MS = "resa.opt.smd.qos.ms";
+    public static final String OPTIMIZE_SMD_QOS_UPPER_MS = "resa.opt.smd.qos.upper.ms";
+    public static final String OPTIMIZE_SMD_QOS_LOWER_MS = "resa.opt.smd.qos.lower.ms";
     public static final String OPTIMIZE_SMD_SEND_QUEUE_THRESH = "resa.opt.smd.sq.thresh";
     public static final String OPTIMIZE_SMD_RECV_QUEUE_THRESH_RATIO = "resa.opt.smd.rq.thresh.ratio";
+    public static final String OPTIMIZE_SMD_RESOURCE_UNIT = "resa.opt.smd.resource.unit";
 
     public static final String ZK_ROOT_PATH = "resa.scheduler.zk.root";
     public static final String DECISION_MAKER_CLASS = "resa.scheduler.decision.class";

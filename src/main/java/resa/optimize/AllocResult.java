@@ -4,22 +4,19 @@ import java.util.Map;
 
 /**
  * Created by ding on 14-4-29.
- * Modified by Tom Fu on 6-22-2016
+ * Modified by Tom Fu on 8-May-2017
  *
- * in this modification, we consider three sets of allocation results:
- * a) minReqOptAllocation given QoS input
- * b) kMaxOptAllocation given K_max available number of executors
- * c) currOptAllocation, the optimal allocation based on the currently used number of executors
- * d) Status tells if any operator is stable (rho < 1) or unstable (rho > 1)
+ * in this version of modification, we extend the Status with two more states: "Overprovisioning" and "SHORTAGE"
+ * The definition of both are not discussed here, refer to service model and decision maker
  */
 public class AllocResult {
 
-    //TODO: add expected QoS for both minReqOptAllocation and currOptAllocation
+    //TODO: add expected QoS for both minReqOptAllocation and currOptAllocation, handled by a proper "Decision maker"
     //so that for later programme to optimize the rebalance behavior
     // (e.g. consider expected rebalance gain vs. cost)
 
     public static enum Status {
-        INFEASIBLE, FEASIBLE
+        OVERPROVISIONING, SHORTAGE, INFEASIBLE, FEASIBLE,
     }
 
     public final Status status;
